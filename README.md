@@ -234,7 +234,7 @@ Each feature follows a consistent service pattern:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/corepilot.git
+   git clone https://github.com/codelifynet/corepilot-nextjs-prisma-shadcn-ai-starter-kit.git
    cd corepilot
    ```
 
