@@ -253,7 +253,7 @@ Each feature follows a consistent service pattern:
    Configure your environment variables:
    ```env
    # Application URL
-   NEXT_PUBLIC_APP_URL="http://localhost:3000"
+   NEXT_PUBLIC_APP_URL="http://localhost:3007"
    
    # Database
    DATABASE_URL="postgresql://username:password@localhost:5432/corepilot"
@@ -261,8 +261,8 @@ Each feature follows a consistent service pattern:
    # Authentication (Required)
    AUTH_SECRET="your-auth-secret-key"
    BETTER_AUTH_SECRET="your-better-auth-secret"
-   BETTER_AUTH_URL="http://localhost:3000"
-   NEXT_PUBLIC_BETTER_AUTH_URL="http://localhost:3000"
+   BETTER_AUTH_URL="http://localhost:3007"
+   NEXT_PUBLIC_BETTER_AUTH_URL="http://localhost:3007"
    
    # File Uploads (Required for media features) 💎
    UPLOADTHING_SECRET="your-uploadthing-secret"
@@ -365,7 +365,7 @@ The seeding system creates permissions for:
    ```
 
 6. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:3007](http://localhost:3007)
 
 ### 🎯 **First Steps**
 1. **Create an admin account** - Register your first user (automatically gets admin role)
@@ -435,16 +435,6 @@ After seeding, you'll have:
 - **3 Published Blog Posts** with rich content
 - **8 Comments** (7 approved, 1 pending moderation)
 - **3 Blog Post Revisions** for version tracking
-
-### Sample Users
-
-After seeding, you can use these test accounts:
-
-- **Admin**: `admin@corepilot.dev`
-- **Editor**: `editor@corepilot.dev`
-- **Author**: `author@corepilot.dev`
-
-*Note: Passwords are set during the user creation process in the seed script.*
 
 ## 🏗️ **Feature Driven Development (FDD) Architecture**
 
