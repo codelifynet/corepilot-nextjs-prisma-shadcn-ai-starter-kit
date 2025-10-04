@@ -1,0 +1,125 @@
+model Notification {
+  id         String                 @id @default(cuid())
+  title      String
+  message    String
+  type       NotificationType
+  priority   NotificationPriority   @default(NORMAL)
+  category   NotificationCategory   @default(SYSTEM)
+  status     NotificationStatus     @default(UNREAD)
+  data       Json?
+  actionUrl  String?
+  imageUrl   String?
+  readAt     DateTime?
+  userId     String
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  deliveries NotificationDelivery[]
+  user       User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+  @@index([priority])
+  @@index([category])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+model NotificationSettings {
+  id                     String                @id @default(cuid())
+  emailNotifications     Boolean               @default(true)
+  pushNotifications      Boolean               @default(true)
+  smsNotifications       Boolean               @default(false)
+  systemNotifications    Boolean               @default(true)
+  userNotifications      Boolean               @default(true)
+  securityNotifications  Boolean               @default(true)
+  marketingNotifications Boolean               @default(false)
+  orderNotifications     Boolean               @default(true)
+  paymentNotifications   Boolean               @default(true)
+  frequency              NotificationFrequency @default(IMMEDIATE)
+  quietHoursEnabled      Boolean               @default(false)
+  quietHoursStart        String?
+  quietHoursEnd          String?
+  userId                 String                @unique
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  user                   User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification_settings")
+}
+
+model NotificationTemplate {
+  id        String               @id @default(cuid())
+  name      String               @unique
+  title     String
+  content   String
+  type      NotificationType
+  category  NotificationCategory
+  variables String[]
+  isActive  Boolean              @default(true)
+  isSystem  Boolean              @default(false)
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([type])
+  @@index([category])
+  @@index([isActive])
+  @@map("notification_templates")
+}
+
+model NotificationDelivery {
+  id             String       @id @default(cuid())
+  channel        String
+  status         String
+  recipient      String
+  sentAt         DateTime?
+  deliveredAt    DateTime?
+  failedAt       DateTime?
+  errorMessage   String?
+  notificationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@index([notificationId])
+  @@index([channel])
+  @@index([status])
+  @@index([sentAt])
+  @@map("notification_deliveries")
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  ERROR
+  SUCCESS
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+  ARCHIVED
+}
+
+enum NotificationCategory {
+  SYSTEM
+  USER
+  SECURITY
+  MARKETING
+  ORDER
+  PAYMENT
+}
+
+enum NotificationFrequency {
+  IMMEDIATE
+  HOURLY
+  DAILY
+  WEEKLY
+}

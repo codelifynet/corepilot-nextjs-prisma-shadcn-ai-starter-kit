@@ -1,0 +1,176 @@
+enum TwitterCardType {
+  SUMMARY
+  SUMMARY_LARGE_IMAGE
+}
+
+enum SchemaOrgType {
+  WEBSITE
+  ORGANIZATION
+}
+
+enum SEOIssueType {
+  CRITICAL
+  WARNING
+  INFO
+  SUGGESTION
+}
+
+enum SEOIssueSeverity {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum SEOIssueCategory {
+  META_TAGS
+  CONTENT
+  TECHNICAL
+  PERFORMANCE
+  ACCESSIBILITY
+  SOCIAL_MEDIA
+  STRUCTURED_DATA
+}
+
+enum SEOEffortLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum SEOImpactLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model SeoSettings {
+  id                      String           @id @default(cuid())
+  siteTitle               String?
+  siteDescription         String?
+  siteKeywords            String[]         @default([])
+  siteUrl                 String?
+  siteName                String?
+  defaultLanguage         String?          @default("en")
+  metaTitle               String?
+  metaDescription         String?
+  metaKeywords            String[]         @default([])
+  metaAuthor              String?
+  metaRobots              String?          @default("index,follow")
+  canonicalUrl            String?
+  ogTitle                 String?
+  ogDescription           String?
+  ogImage                 String?
+  ogImageAlt              String?
+  ogType                  String?          @default("website")
+  ogUrl                   String?
+  ogSiteName              String?
+  ogLocale                String?          @default("en_US")
+  twitterCard             TwitterCardType? @default(SUMMARY)
+  twitterSite             String?
+  twitterCreator          String?
+  twitterTitle            String?
+  twitterDescription      String?
+  twitterImage            String?
+  twitterImageAlt         String?
+  schemaOrgType           SchemaOrgType?   @default(WEBSITE)
+  schemaOrgName           String?
+  schemaOrgDescription    String?
+  schemaOrgUrl            String?
+  schemaOrgLogo           String?
+  schemaOrgContactPoint   String?
+  schemaOrgSameAs         String[]         @default([])
+  enableSitemap           Boolean          @default(true)
+  enableRobotsTxt         Boolean          @default(true)
+  enableBreadcrumbs       Boolean          @default(true)
+  enableStructuredData    Boolean          @default(true)
+  googleAnalyticsId       String?
+  googleTagManagerId      String?
+  facebookPixelId         String?
+  enableImageOptimization Boolean          @default(true)
+  enableLazyLoading       Boolean          @default(true)
+  enableCompression       Boolean          @default(true)
+  enableCaching           Boolean          @default(true)
+  userId                  String           @unique
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  seoAudits               SeoAudits[]
+  seoIssueRecords         SeoIssueRecord[]
+  seoKeywords             SeoKeyword[]
+  seoMetaTags             SeoMetaTag[]
+  seoRedirects            SeoRedirect[]
+  user                    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("seo_settings")
+}
+
+model SeoAudits {
+  id            String      @id @default(cuid())
+  url           String
+  status        String      @default("pending")
+  score         Int?
+  issues        Int         @default(0)
+  createdAt     DateTime    @default(now())
+  completedAt   DateTime?
+  seoSettingsId String
+  seoSettings   SeoSettings @relation(fields: [seoSettingsId], references: [id], onDelete: Cascade)
+
+  @@map("seo_audits")
+}
+
+model SeoIssueRecord {
+  id            String           @id @default(cuid())
+  type          SEOIssueType
+  severity      SEOIssueSeverity
+  category      SEOIssueCategory
+  title         String
+  description   String
+  url           String?
+  effort        SEOEffortLevel   @default(MEDIUM)
+  impact        SEOImpactLevel   @default(MEDIUM)
+  status        String           @default("open")
+  createdAt     DateTime         @default(now())
+  resolvedAt    DateTime?
+  seoSettingsId String
+  seoSettings   SeoSettings      @relation(fields: [seoSettingsId], references: [id], onDelete: Cascade)
+
+  @@map("seo_issue_records")
+}
+
+model SeoKeyword {
+  id            String      @id @default(cuid())
+  keyword       String
+  priority      Int         @default(1)
+  volume        Int?
+  difficulty    Int?
+  createdAt     DateTime    @default(now())
+  seoSettingsId String
+  seoSettings   SeoSettings @relation(fields: [seoSettingsId], references: [id], onDelete: Cascade)
+
+  @@map("seo_keywords")
+}
+
+model SeoMetaTag {
+  id            String      @id @default(cuid())
+  name          String
+  content       String
+  page          String?
+  createdAt     DateTime    @default(now())
+  seoSettingsId String
+  seoSettings   SeoSettings @relation(fields: [seoSettingsId], references: [id], onDelete: Cascade)
+
+  @@map("seo_meta_tags")
+}
+
+model SeoRedirect {
+  id            String      @id @default(cuid())
+  fromUrl       String
+  toUrl         String
+  statusCode    Int         @default(301)
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  seoSettingsId String
+  seoSettings   SeoSettings @relation(fields: [seoSettingsId], references: [id], onDelete: Cascade)
+
+  @@map("seo_redirects")
+}

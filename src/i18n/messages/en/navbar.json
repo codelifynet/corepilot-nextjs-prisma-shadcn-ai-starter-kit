@@ -1,0 +1,29 @@
+{
+	"brand": "CorePilot",
+	"subtitle": "Rapid Starter Kits",
+	"features": "Features",
+	"starterKits": "Starter Kits",
+	"pricing": "Pricing",
+	"demo": "Demo",
+	"theme": "Theme",
+	"language": "Language",
+	"contactSupport": "Contact Support",
+	"getStarted": "Get Started",
+	"starterKitCollection": "Starter Kit Collection",
+	"starterKitsDescription": "Ready-made templates to quickly start your project",
+	"viewAllStarterKits": "View All Starter Kits",
+	"coreFeatures": "Core Features",
+	"coreFeaturesDescription": "Powerful tools to accelerate your development process",
+	"resources": "Resources",
+	"otherProducts": "Other Products",
+	"allProducts": "All Products",
+	"contact": "Contact",
+	"changelog": "Changelog",
+	"learningResources": "Learning Resources",
+	"learningResourcesDescription": "Everything you need to succeed",
+	"announcement": {
+		"newYearSale": "Launch Sale: Get started now, save 70%!",
+		"claimNow": "Claim Now →",
+		"details": "Details →"
+	}
+}

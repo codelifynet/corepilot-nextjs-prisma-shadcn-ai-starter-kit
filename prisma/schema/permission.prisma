@@ -1,0 +1,25 @@
+// Permission Model - Field-level permissions for RBAC system
+
+model Permission {
+  id          String  @id @default(cuid())
+  entity      String // e.g., "user", "product", "order"
+  field       String // e.g., "email", "name", "*" for all fields
+  action      String // e.g., "create", "read", "update", "delete"
+  maskType    String? // e.g., "none", "partial", "hidden", "encrypted", "redacted"
+  displayName String? // Human-readable name for the entity (e.g., "User Management")
+  description String? // Description of what this permission controls
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Foreign keys
+  roleId String @map("role_id")
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, entity, field, action]) // Prevent duplicate permissions
+  // Indexes for performance
+  @@index([roleId])
+  @@index([entity, action])
+  @@index([entity, field, action])
+  @@map("permissions")
+}

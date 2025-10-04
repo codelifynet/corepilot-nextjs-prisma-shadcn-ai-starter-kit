@@ -1,0 +1,105 @@
+model User {
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  banned        Boolean?
+  banReason     String?
+  banExpires    DateTime?
+  isActive      Boolean   @default(true)
+
+  // RBAC Fields
+  roleId String? @map("role_id") // Primary role (optional)
+  role   Role?   @relation(fields: [roleId], references: [id])
+
+  // Existing relations
+  accounts Account[]
+
+  notificationSettings NotificationSettings?
+  notifications        Notification[]
+  seoSettings          SeoSettings?
+  sessions             Session[]
+  dashboards           Dashboard[]
+
+  UserActivity UserActivity[]
+
+  // RBAC Relations
+  userRoles           UserRole[] // Many-to-many roles
+  resourcePermissions ResourcePermission[] // Direct resource permissions
+
+  @@index([roleId])
+  @@map("users")
+}
+
+model Session {
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime
+  token          String   @unique
+  ipAddress      String?
+  userAgent      String?
+  impersonatedBy String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id @default(uuid())
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, providerId])
+  @@map("accounts")
+}
+
+model Verification {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  @@map("verifications")
+}
+
+model UserActivity {
+  id        String   @id @default(cuid())
+  userId    String?
+  sessionId String
+  action    String
+  endpoint  String?
+  duration  Int?
+  userAgent String?
+  ipAddress String?
+  timestamp DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@index([timestamp])
+  @@index([userId])
+  @@index([sessionId])
+  @@map("user_activity")
+}
+
+enum CustomerType {
+  INDIVIDUAL
+  BUSINESS
+  ENTERPRISE
+}

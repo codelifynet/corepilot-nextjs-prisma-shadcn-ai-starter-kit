@@ -1,0 +1,95 @@
+model SiteSettings {
+  id                       String          @id @default(cuid())
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
+  siteName                 String          @default("CorePilot")
+  siteDescription          String?         @default("Modern Next.js starter template")
+  siteUrl                  String?         @default("http://localhost:3000")
+  adminEmail               String?         @default("admin@corepilot.com")
+  timezone                 String          @default("Europe/Istanbul")
+  language                 SiteLanguage    @default(TR)
+  currency                 SiteCurrency    @default(TRY)
+  dateFormat               DateFormat      @default(DD_MM_YYYY)
+  timeFormat               TimeFormat      @default(TWENTY_FOUR_HOUR)
+  contactEmail             String?
+  contactPhone             String?
+  contactAddress           String?
+  businessHours            String?
+  supportEmail             String?
+  facebookUrl              String?
+  twitterUrl               String?
+  instagramUrl             String?
+  linkedinUrl              String?
+  youtubeUrl               String?
+  githubUrl                String?
+  metaTitle                String?
+  metaDescription          String?
+  metaKeywords             String?
+  ogTitle                  String?
+  ogDescription            String?
+  ogImage                  String?
+  twitterCard              String?
+  robotsTxt                String?
+  sitemapEnabled           Boolean         @default(true)
+  analyticsId              String?
+  gtmId                    String?
+  maintenanceMode          Boolean         @default(false)
+  maintenanceType          MaintenanceType @default(SCHEDULED)
+  maintenanceMessage       String?
+  maintenanceStartAt       DateTime?
+  maintenanceEndAt         DateTime?
+  allowRegistration        Boolean         @default(true)
+  requireEmailVerification Boolean         @default(true)
+  sessionTimeout           Int             @default(30)
+  passwordMinLength        Int             @default(8)
+  enableTwoFactor          Boolean         @default(false)
+  cacheEnabled             Boolean         @default(true)
+  cacheTtl                 Int             @default(3600)
+  maxFileSize              Int             @default(10)
+  enableLogging            Boolean         @default(true)
+  logLevel                 String          @default("info")
+  backupEnabled            Boolean         @default(true)
+  backupFrequency          String          @default("daily")
+  enableRateLimit          Boolean         @default(true)
+  rateLimitRequests        Int             @default(100)
+  rateLimitWindow          Int             @default(900)
+  enableCors               Boolean         @default(true)
+  corsOrigins              String?
+  enableCsp                Boolean         @default(true)
+  cspDirectives            String?
+  enableHsts               Boolean         @default(true)
+
+  @@map("site_settings")
+}
+
+enum SiteLanguage {
+  TR
+  EN
+  DE
+  FR
+  ES
+}
+
+enum SiteCurrency {
+  TRY
+  USD
+  EUR
+  GBP
+}
+
+enum DateFormat {
+  DD_MM_YYYY
+  MM_DD_YYYY
+  YYYY_MM_DD
+}
+
+enum TimeFormat {
+  TWELVE_HOUR
+  TWENTY_FOUR_HOUR
+}
+
+enum MaintenanceType {
+  SCHEDULED
+  EMERGENCY
+  UPGRADE
+}

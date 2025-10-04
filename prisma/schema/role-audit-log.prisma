@@ -1,0 +1,29 @@
+// RoleAuditLog Model - Audit trail for role changes
+// Note: This model requires corresponding relation fields in User and Role models:
+// - User model should have: auditLogs RoleAuditLog[]
+// - Role model should have: auditLogs RoleAuditLog[]
+
+model RoleAuditLog {
+  id        String   @id @default(cuid())
+  action    String // "CREATED", "UPDATED", "DELETED", "ASSIGNED", "REVOKED"
+  oldValue  Json? // Previous state (for updates)
+  newValue  Json? // New state (for creates/updates)
+  timestamp DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  // Foreign keys
+  userId String? @map("user_id") // Who performed the action
+  roleId String? @map("role_id") // Which role was affected
+
+  // Relations - Note: Corresponding fields needed in User and Role models
+  // user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  // role Role? @relation(fields: [roleId], references: [id], onDelete: SetNull)
+
+  // Indexes for audit queries
+  @@index([userId])
+  @@index([roleId])
+  @@index([timestamp])
+  @@index([action])
+  @@map("role_audit_logs")
+}

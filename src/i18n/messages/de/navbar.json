@@ -1,0 +1,29 @@
+{
+	"brand": "CorePilot",
+	"subtitle": "Schnelle Starter-Kits",
+	"features": "Funktionen",
+	"starterKits": "Starter-Kits",
+	"pricing": "Preise",
+	"demo": "Demo",
+	"theme": "Thema",
+	"language": "Sprache",
+	"contactSupport": "Support kontaktieren",
+	"getStarted": "Loslegen",
+	"starterKitCollection": "Starter-Kit-Sammlung",
+	"starterKitsDescription": "Vorgefertigte Vorlagen für den schnellen Projektstart",
+	"viewAllStarterKits": "Alle Starter-Kits anzeigen",
+	"coreFeatures": "Kernfunktionen",
+	"coreFeaturesDescription": "Leistungsstarke Tools zur Beschleunigung Ihres Entwicklungsprozesses",
+	"resources": "Ressourcen",
+	"learningResources": "Lernressourcen",
+	"learningResourcesDescription": "Alles was Sie zum Erfolg brauchen",
+	"otherProducts": "Andere Produkte",
+	"allProducts": "Alle Produkte",
+	"contact": "Kontakt",
+	"changelog": "Änderungsprotokoll",
+	"announcement": {
+		"newYearSale": "Launch-Sale: Jetzt starten, 70% sparen!",
+		"claimNow": "Jetzt sichern →",
+		"details": "Details →"
+	}
+}

@@ -1,0 +1,55 @@
+@keyframes fadeInUp {
+	0% {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Ensure the animation is applied */
+.animate-fade-in-up {
+	animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Staggered animation delays */
+.animate-delay-100 {
+	animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+	animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+	animation-delay: 300ms;
+}
+
+.animate-delay-400 {
+	animation-delay: 400ms;
+}
+
+.animate-delay-500 {
+	animation-delay: 500ms;
+}
+
+/* Gradient border animation */
+@keyframes gradientBorder {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.animate-gradient-border {
+	background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+	background-size: 400% 400%;
+	animation: gradientBorder 3s ease infinite;
+}

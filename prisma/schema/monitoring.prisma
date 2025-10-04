@@ -1,0 +1,195 @@
+model SystemMetrics {
+  id                String   @id @default(cuid())
+  cpuUsage          Float
+  memoryUsage       Float
+  memoryTotal       BigInt
+  memoryUsed        BigInt
+  memoryFree        BigInt
+  diskUsage         Float
+  diskTotal         BigInt
+  diskUsed          BigInt
+  diskFree          BigInt
+  networkRx         BigInt
+  networkTx         BigInt
+  processCount      Int
+  activeConnections Int
+  loadAverage       Float
+  uptime            BigInt
+  timestamp         DateTime @default(now())
+
+  @@index([timestamp])
+  @@map("system_metrics")
+}
+
+model SystemMetric {
+  id        String           @id @default(cuid())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  type      SystemMetricType
+  name      String
+  value     Float
+  unit      String
+  hostname  String?
+  component String?
+  metadata  Json?
+  tags      String[]         @default([])
+  alerts    SystemAlert[]
+
+  @@index([type, createdAt])
+  @@index([createdAt])
+  @@map("system_metric")
+}
+
+model DatabaseStats {
+  id              String   @id @default(cuid())
+  totalTables     Int
+  totalRecords    BigInt
+  databaseSize    BigInt
+  connectionCount Int
+  queriesPerSec   Float
+  avgQueryTime    Float
+  timestamp       DateTime @default(now())
+
+  @@index([timestamp])
+  @@map("database_stats")
+}
+
+model ServerMetrics {
+  id                String   @id @default(cuid())
+  serverName        String
+  cpuCores          Int
+  cpuModel          String
+  totalMemory       BigInt
+  diskCount         Int
+  networkInterfaces Int
+  osInfo            String
+  nodeVersion       String
+  timestamp         DateTime @default(now())
+
+  @@index([timestamp])
+  @@map("server_metrics")
+}
+
+model SystemAlert {
+  id             String        @id @default(cuid())
+  type           String
+  severity       String?
+  message        String?
+  value          Float?
+  threshold      Float?
+  resolved       Boolean       @default(false)
+  resolvedAt     DateTime?
+  timestamp      DateTime      @default(now())
+  acknowledgedAt DateTime?
+  acknowledgedBy String?
+  createdAt      DateTime      @default(now())
+  currentValue   Float?
+  description    String?
+  level          AlertLevel
+  metadata       Json?
+  metricId       String?
+  status         AlertStatus   @default(ACTIVE)
+  tags           String[]      @default([])
+  title          String
+  updatedAt      DateTime      @updatedAt
+  metric         SystemMetric? @relation(fields: [metricId], references: [id])
+
+  @@index([timestamp])
+  @@index([type])
+  @@index([severity])
+  @@index([resolved])
+  @@index([status, level])
+  @@index([createdAt])
+  @@map("system_alerts")
+}
+
+model DashboardWidget {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String
+  description String?
+  type        String
+  size        String
+  position    Json
+  isActive    Boolean   @default(true)
+  dataSource  String
+  config      Json
+  dashboardId String
+  dashboard   Dashboard @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+
+  @@index([dashboardId])
+  @@map("dashboard_widgets")
+}
+
+model Dashboard {
+  id              String            @id @default(cuid())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  title           String
+  description     String?
+  slug            String            @unique
+  layout          Json?
+  isDefault       Boolean           @default(false)
+  isPublic        Boolean           @default(false)
+  userId          String?
+  refreshInterval Int?              @default(30)
+  theme           String?           @default("auto")
+  widgets         DashboardWidget[]
+  user            User?             @relation(fields: [userId], references: [id])
+
+  @@map("dashboards")
+}
+
+model SystemInfo {
+  id                String   @id @default(cuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  hostname          String
+  platform          String
+  arch              String
+  release           String
+  cpuModel          String?
+  cpuCores          Int?
+  cpuSpeed          Float?
+  cpuManufacturer   String?
+  totalMemory       BigInt?
+  totalStorage      BigInt?
+  networkInterfaces Json?
+  nodeVersion       String?
+  npmVersion        String?
+  uptime            Float?
+  loadAverage       Json?
+  isActive          Boolean  @default(true)
+  lastSeen          DateTime @default(now())
+
+  @@index([hostname])
+  @@index([lastSeen])
+  @@map("system_info")
+}
+
+enum SystemMetricType {
+  CPU
+  MEMORY
+  DISK
+  NETWORK
+  PROCESS
+  TEMPERATURE
+  UPTIME
+  DATABASE
+  CUSTOM
+}
+
+enum AlertLevel {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+enum AlertStatus {
+  ACTIVE
+  ACKNOWLEDGED
+  RESOLVED
+  IGNORED
+}

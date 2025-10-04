@@ -1,0 +1,25 @@
+// ResourcePermission Model - Resource-specific permissions for fine-grained access control
+
+model ResourcePermission {
+  id           String  @id @default(cuid())
+  resourceType String // e.g., "document", "project", "team"
+  resourceId   String // ID of the specific resource
+  action       String // e.g., "read", "write", "delete", "admin"
+  granted      Boolean @default(true) // true = allow, false = deny
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Foreign keys
+  roleId String  @map("role_id")
+  role   Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@unique([roleId, resourceType, resourceId, action]) // Prevent duplicate permissions
+  // Indexes for performance
+  @@index([roleId])
+  @@index([resourceType, resourceId])
+  @@index([resourceType, action])
+  @@map("resource_permissions")
+}

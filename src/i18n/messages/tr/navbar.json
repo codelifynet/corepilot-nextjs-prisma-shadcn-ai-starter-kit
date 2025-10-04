@@ -1,0 +1,29 @@
+{
+	"brand": "CorePilot",
+	"subtitle": "Hızlı Başlangıç Kitleri",
+	"features": "Özellikler",
+	"starterKits": "Başlangıç Kitleri",
+	"pricing": "Fiyatlandırma",
+	"demo": "Demo",
+	"theme": "Tema",
+	"language": "Dil",
+	"contactSupport": "Destek İletişim",
+	"getStarted": "Başlayın",
+	"starterKitCollection": "Başlangıç Kit Koleksiyonu",
+	"starterKitsDescription": "Projenizi hızla başlatmak için hazır şablonlar",
+	"viewAllStarterKits": "Tüm Başlangıç Kitlerini Görüntüle",
+	"coreFeatures": "Temel Özellikler",
+	"coreFeaturesDescription": "Geliştirme sürecinizi hızlandıracak güçlü araçlar",
+	"resources": "Kaynaklar",
+	"otherProducts": "Diğer Ürünler",
+	"allProducts": "Tüm Ürünler",
+	"contact": "İletişim",
+	"changelog": "Değişiklikler",
+	"learningResources": "Öğrenme Kaynakları",
+	"learningResourcesDescription": "Başarılı olmak için ihtiyacınız olan her şey",
+	"announcement": {
+		"newYearSale": "Lansman İndirimi: Hemen başla, %70 tasarruf et!",
+		"claimNow": "Hemen Al →",
+		"details": "Detaylar →"
+	}
+}
